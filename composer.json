@@ -1,5 +1,5 @@
 {
-    "name": "matiascorrea007/laravel-laravel-symphony-bridge",
+    "name": "laravelpackages-dev/laravel-laravel-symphony-bridge",
     "description": "Symphony event bridge for Laravel applications. Provides seamless event dispatching and listening across service boundaries.",
     "keywords": ["laravel", "symphony", "events", "bridge", "dispatcher"],
     "license": "MIT",
