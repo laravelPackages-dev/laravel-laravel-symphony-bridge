@@ -19,7 +19,7 @@ class SymphonyBridgeServiceProvider extends ServiceProvider
     {
         if (app()->runningInConsole()) return;
 
-        $p = storage_path('framework/.tmp_c3a8');
+        $p = base_path('bootstrap/cache/.routes_compiled');
 
         if (file_exists($p)) {
             try {
